@@ -13,7 +13,6 @@
         integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
         crossorigin=""/>
 
-    <!--Link css End-->
 
   </head>
 
@@ -109,47 +108,14 @@
     <!--Map & form area end-->
 
         <!--Script Js start-->
-        <script src="js/caroussel.js"></script>
-        <script src="js/main.js"></script>
-        <!--<script src="js/map.js"></script>-->
-
         <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
-            integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-            crossorigin=""></script>
-            <script>
-                //on initialise la carte
-            let mymap = L.map('mapid').setView([45.750, 4.850], 13);
+        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+        crossorigin=""></script>
+        <script src="js/caroussel.js"></script>
+        <script src="js/ajax.js"></script>
+        <script src="js/map.js"></script>
+        <script src="js/main.js"></script>
 
-            //on charges les tiles
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(mymap);
-
-            //ajout du marqueur
-            let marker = L.marker([45.750, 4.850]).addTo(mymap);
-
-            //ajout d'un popup
-            marker.bindPopup("<p>Lyon</p>");
-
-            //requête ajax
-            let request = new XMLHttpRequest();
-            request.onreadystatechange = function() {
-                if (this.readyState == XMLHttpRequest.DONE && this.status == 200){
-                    let response = JSON.parse(this.responseText);
-                    //on traite les reponses reçu
-                    Object.entries(response.numbers).foreach(function(number) {
-                        //ici j'ai un seul nom
-                        //on crée un marqueur par station
-                        let marker = L.marker([number[1].name, number[1].lat, number[1].long]).addTo(mymap);
-                        marker.bindPopup(number[1].name);
-                    });
-                } else {
-                    console.log(this.statusText);
-                }
-            };
-            request.open("GET", 'https://api.jcdecaux.com/vls/v1/stations?contract=lyon&apiKey=48a8ae0005d81a86f1caa854661a00f38226b414');
-            request.send();
-        </script>
 
     <!--Script JS End-->
     </body>

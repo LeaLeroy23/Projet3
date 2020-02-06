@@ -12,7 +12,7 @@ class Slider {
   }
 
 //-Slide suivant
-  nextSlide() {
+  nextSlide(){
       if (this.play) {
           if (this.currentImg > this.nextImg) {
               this.currentImg = this.currentImg - 100;	
@@ -20,7 +20,6 @@ class Slider {
           else {
               this.currentImg = 0;
           }
-          
           for(let i = 0; i < this.slide.length; i++) {
               this.slide.item(i).style.left = this.currentImg + '%';
           }
