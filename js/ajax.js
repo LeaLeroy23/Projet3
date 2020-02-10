@@ -1,13 +1,11 @@
 class Ajax {
-    constructor(url){
-        this.url = url;
-        
-        this.appelle();
-        
+    constructor(){
+        this.initAjax();
+        this.initMarkers();
     }
 
     //requête ajax
-    appelle() {
+    initAjax() {
 
     let request = new XMLHttpRequest();
     request.onreadystatechange = function() {
@@ -16,13 +14,26 @@ class Ajax {
             console.log(response);
         }
     };
-    request.open("GET", this.url);
+    request.open("GET", 'https://api.jcdecaux.com/vls/v3/stations?contract=lyon&apiKey=48a8ae0005d81a86f1caa854661a00f38226b414');
     request.send();
     
     }
+
+    initMarkers(){
+        //ajout du marqueur
+        this.marker = L.marker(station.position).addTo(this.mymap);
+
+        for (let i = 0; i<this.station.length i++){
+
+        }
+
+        //ajout d'un popup
+        this.marker.bindPopup(station.address);
+    }
     
 }
-let myAjax = new Ajax('https://api.jcdecaux.com/vls/v3/stations?contract=lyon&apiKey=48a8ae0005d81a86f1caa854661a00f38226b414');
+
+let myAjax = new Ajax();
 
 
 /*Object.entries(response.numbers).foreach(function(number) {
