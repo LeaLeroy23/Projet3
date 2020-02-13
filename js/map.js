@@ -1,10 +1,30 @@
 class Map{
     constructor(){
+        this.stationModel = {
+            init : function (name, address, positionlat, positionlng, status){
+                this.name = name;
+                this.address = address;
+                this.position = {
+                    lat : positionlat,
+                    lng : positionlng
+                };
+                this.status = status;
+            }
+        };
+        this.greenIcon = L.icon({
+            iconUrl: "Contenu/pin-check-green.png",
+            iconSize: [25, 41]
+        });
+        this.orangeIcon = L.icon({
+            iconUrl: "Contenu/pin-orange.png",
+            iconSize: [25, 41]
+        });
+        this.redIcon = L.icon({
+            iconUrl: "Contenu/pin-cross-red.png",
+            iconSize: [25, 41]
+        });
         this.initMap();
         this.initMarkers();
-        this.stationModel = {
-
-        }
  
     }
 
@@ -24,18 +44,31 @@ class Map{
 
         Ajax.getAjax('https://api.jcdecaux.com/vls/v3/stations?contract=lyon&apiKey=48a8ae0005d81a86f1caa854661a00f38226b414', function(response) {
             response = JSON.parse(response);
-            const station = response[i];
-            for (let i = 0; i < response.length; i++){
+            let stations = response;
 
+            for (let station of stations){
+                let newStation = Object.create(this.stationModel);
+                newStation.init(station.name, station.position.lat, station.position.lng);
 
-                if (station.available_bikes === 0){
+                let myIcon = this.greenIcon;
 
-                } else if (station.status === "CLOSE"){
-    
+                if (newStation.status === "CLOSE"){
+                    newStation.available_bikes === 0;
+                };
+
+                if (newStation.available_bikes < 100){
+                    myIcon = this.orangeIcon;
+                    if (newStation.available_bikes === 0){
+                        myIcon = this.redIcon;
+                    }
                 }
 
-                this.marker.bindPopup(station.address);
+                let newMarker = L.marker([newStation.positionlat, newStation.positionlng], {icon: myIcon}, {opacity: 1}, {bubblingMouseEvents: true}, {interactive: true});
+                newMarker.bindPopup();
+                newMarker.addTo(this.myMap);
+
             }
+
                    
         });
 
@@ -44,6 +77,12 @@ class Map{
 
 let mapInit = new Map();
 
-/*let newMarker = L.marker([station.position.lat, station.position.lng]);
-                newMarker.bindPopup();
-                newMarker.addTo(this.myMap)*/
+/*for (let i = 0; i < response.length; i++){
+
+    if (station.available_bikes === 0){
+        myIcon = this.orangeIcon;
+    } else if (station.status === "CLOSE"){
+        myIcon = this.redIcon;
+    }
+
+}*/
